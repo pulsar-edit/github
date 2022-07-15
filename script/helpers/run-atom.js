@@ -1,7 +1,7 @@
 const {spawn} = require('child_process');
 
-function atomProcess(env, ...args) {
-  const atomBinPath = process.env.ATOM_SCRIPT_PATH || 'atom';
+function pulsarProcess(env, ...args) {
+  const atomBinPath = process.env.PULSAR_SCRIPT_PATH || process.env.ATOM_SCRIPT_PATH || 'pulsar';
   const atomEnv = {...process.env, ...env};
   const isWindows = process.platform === 'win32';
 
@@ -34,9 +34,9 @@ function atomProcess(env, ...args) {
   });
 }
 
-async function runAtom(...args) {
+async function runPulsar(...args) {
   try {
-    const {code, signal} = await atomProcess(...args);
+    const {code, signal} = await pulsarProcess(...args);
     if (signal) {
       // eslint-disable-next-line no-console
       console.log(`Atom process killed with signal ${signal}.`);
@@ -50,6 +50,6 @@ async function runAtom(...args) {
 }
 
 module.exports = {
-  atomProcess,
-  runAtom,
+  pulsarProcess,
+  runPulsar,
 };

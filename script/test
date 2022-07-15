@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const {runAtom} = require('./helpers/run-atom');
+const {runPulsar} = require('./helpers/run-atom');
 const {projectPath} = require('./helpers/paths');
 
-runAtom({NODE_ENV: 'development'}, '--test', projectPath('test'));
+runPulsar({NODE_ENV: 'development'}, '--test', projectPath('test'));
