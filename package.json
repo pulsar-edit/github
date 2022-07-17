@@ -1,12 +1,12 @@
 {
-  "name": "github",
+  "name": "@pulsar-edit/github",
   "main": "./dist/index",
   "version": "0.36.11",
   "description": "GitHub integration",
   "repository": "https://github.com/atom/github",
   "license": "MIT",
   "scripts": {
-    "build": "babel lib -d dist"
+    "build": "babel lib -d dist",
     "test": "node script/test",
     "test:coverage": "node script/test-coverage",
     "test:coverage:text": "nyc --reporter=text npm run test:coverage",
