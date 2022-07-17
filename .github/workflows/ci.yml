@@ -4,6 +4,8 @@ on:
   push:
     branches:
     - master
+    - gh-packages
+
 jobs:
   tests:
     name: tests
