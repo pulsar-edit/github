@@ -108,6 +108,7 @@ jobs:
           node-version: 16.16.0
           registry-url: https://npm.pkg.github.com/
       - run: export ELECTRON_VERSION=12
+      - run: npm install -g @babel/cli
       - run: npm run build
       - run: npm publish
         env:
