@@ -107,10 +107,9 @@ jobs:
         with:
           node-version: 16.16.0
           registry-url: https://npm.pkg.github.com/
-      - run: export ELECTRON_VERSION=12
       - run: npm install -g @babel/cli
       - run: npm install --legacy-peer-deps
-      - run: npm run build
+      - run: ELECTRON_VERSION=12 npm run build
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
