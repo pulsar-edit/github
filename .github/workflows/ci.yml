@@ -90,23 +90,3 @@ jobs:
       run: apm ci
     - name: run snapshot tests
       run: atom --test test/
-
-  publish-package:
-    needs:
-      - tests
-      - snapshot-tests
-    runs-on: ubuntu-latest
-    permissions:
-      packages: write
-      contents: read
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: lts
-          registry-url: https://npm.pkg.github.com/
-      - run: export ELECTRON_VERSION=12
-      - run: npm run build
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
