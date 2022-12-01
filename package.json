@@ -1,6 +1,6 @@
 {
   "name": "github",
-  "main": "./lib/index",
+  "main": "./dist/index",
   "version": "0.36.12",
   "description": "GitHub integration",
   "repository": "https://github.com/atom/github",
