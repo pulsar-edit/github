@@ -2,12 +2,12 @@ name: CI
 
 on:
   - push
-  - pull_request 
+  - pull_request
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   # See https://github.com/pulsar-edit/pulsar/pull/46 for why we set this env variable.
-  
+
 jobs:
   test:
     name: Test
@@ -19,8 +19,8 @@ jobs:
     steps:
       - name: Checkout the Latest Package Code
         uses: actions/checkout@v3
-      - name: Setup Pulsar Editor 
-        uses: pulsar-edit/action-pulsar-dependency@2.1
+      - name: Setup Pulsar Editor
+        uses: pulsar-edit/action-pulsar-dependency@v2.1
         with:
           package-to-test: "github"
       - name: Run the headless Pulsar Tests
