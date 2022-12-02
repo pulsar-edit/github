@@ -1,0 +1,50 @@
+/**
+ * @flow
+ */
+
+/* eslint-disable */
+'use strict';
+/*::
+import type { ReaderFragment } from 'relay-runtime';
+type prCheckoutController_pullRequest$ref = any;
+import type { FragmentReference } from "relay-runtime";
+declare export opaque type reviewsController_pullRequest$ref: FragmentReference;
+declare export opaque type reviewsController_pullRequest$fragmentType: reviewsController_pullRequest$ref;
+export type reviewsController_pullRequest = {|
+  +id: string,
+  +$fragmentRefs: prCheckoutController_pullRequest$ref,
+  +$refType: reviewsController_pullRequest$ref,
+|};
+export type reviewsController_pullRequest$data = reviewsController_pullRequest;
+export type reviewsController_pullRequest$key = {
+  +$data?: reviewsController_pullRequest$data,
+  +$fragmentRefs: reviewsController_pullRequest$ref,
+};
+*/
+
+const node
+/*: ReaderFragment*/
+= {
+  "kind": "Fragment",
+  "name": "reviewsController_pullRequest",
+  "type": "PullRequest",
+  "metadata": null,
+  "argumentDefinitions": [],
+  "selections": [{
+    "kind": "ScalarField",
+    "alias": null,
+    "name": "id",
+    "args": null,
+    "storageKey": null
+  }, {
+    "kind": "FragmentSpread",
+    "name": "prCheckoutController_pullRequest",
+    "args": null
+  }]
+}; // prettier-ignore
+
+node
+/*: any*/
+.hash = '9d67f9908ab4ed776af5f1ee14f61ccb';
+module.exports = node;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2xpYi9jb250cm9sbGVycy9fX2dlbmVyYXRlZF9fL3Jldmlld3NDb250cm9sbGVyX3B1bGxSZXF1ZXN0LmdyYXBocWwuanMiXSwibmFtZXMiOlsibm9kZSIsImhhc2giLCJtb2R1bGUiLCJleHBvcnRzIl0sIm1hcHBpbmdzIjoiQUFBQTtBQUNBO0FBQ0E7O0FBRUE7QUFFQTtBQUVBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7O0FBR0EsTUFBTUE7QUFBSTtBQUFBLEVBQXVCO0FBQy9CLFVBQVEsVUFEdUI7QUFFL0IsVUFBUSwrQkFGdUI7QUFHL0IsVUFBUSxhQUh1QjtBQUkvQixjQUFZLElBSm1CO0FBSy9CLHlCQUF1QixFQUxRO0FBTS9CLGdCQUFjLENBQ1o7QUFDRSxZQUFRLGFBRFY7QUFFRSxhQUFTLElBRlg7QUFHRSxZQUFRLElBSFY7QUFJRSxZQUFRLElBSlY7QUFLRSxrQkFBYztBQUxoQixHQURZLEVBUVo7QUFDRSxZQUFRLGdCQURWO0FBRUUsWUFBUSxrQ0FGVjtBQUdFLFlBQVE7QUFIVixHQVJZO0FBTmlCLENBQWpDLEMsQ0FxQkE7O0FBQ0NBO0FBQUk7QUFBTCxDQUFnQkMsSUFBaEIsR0FBdUIsa0NBQXZCO0FBQ0FDLE1BQU0sQ0FBQ0MsT0FBUCxHQUFpQkgsSUFBakIiLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIEBmbG93XG4gKi9cblxuLyogZXNsaW50LWRpc2FibGUgKi9cblxuJ3VzZSBzdHJpY3QnO1xuXG4vKjo6XG5pbXBvcnQgdHlwZSB7IFJlYWRlckZyYWdtZW50IH0gZnJvbSAncmVsYXktcnVudGltZSc7XG50eXBlIHByQ2hlY2tvdXRDb250cm9sbGVyX3B1bGxSZXF1ZXN0JHJlZiA9IGFueTtcbmltcG9ydCB0eXBlIHsgRnJhZ21lbnRSZWZlcmVuY2UgfSBmcm9tIFwicmVsYXktcnVudGltZVwiO1xuZGVjbGFyZSBleHBvcnQgb3BhcXVlIHR5cGUgcmV2aWV3c0NvbnRyb2xsZXJfcHVsbFJlcXVlc3QkcmVmOiBGcmFnbWVudFJlZmVyZW5jZTtcbmRlY2xhcmUgZXhwb3J0IG9wYXF1ZSB0eXBlIHJldmlld3NDb250cm9sbGVyX3B1bGxSZXF1ZXN0JGZyYWdtZW50VHlwZTogcmV2aWV3c0NvbnRyb2xsZXJfcHVsbFJlcXVlc3QkcmVmO1xuZXhwb3J0IHR5cGUgcmV2aWV3c0NvbnRyb2xsZXJfcHVsbFJlcXVlc3QgPSB7fFxuICAraWQ6IHN0cmluZyxcbiAgKyRmcmFnbWVudFJlZnM6IHByQ2hlY2tvdXRDb250cm9sbGVyX3B1bGxSZXF1ZXN0JHJlZixcbiAgKyRyZWZUeXBlOiByZXZpZXdzQ29udHJvbGxlcl9wdWxsUmVxdWVzdCRyZWYsXG58fTtcbmV4cG9ydCB0eXBlIHJldmlld3NDb250cm9sbGVyX3B1bGxSZXF1ZXN0JGRhdGEgPSByZXZpZXdzQ29udHJvbGxlcl9wdWxsUmVxdWVzdDtcbmV4cG9ydCB0eXBlIHJldmlld3NDb250cm9sbGVyX3B1bGxSZXF1ZXN0JGtleSA9IHtcbiAgKyRkYXRhPzogcmV2aWV3c0NvbnRyb2xsZXJfcHVsbFJlcXVlc3QkZGF0YSxcbiAgKyRmcmFnbWVudFJlZnM6IHJldmlld3NDb250cm9sbGVyX3B1bGxSZXF1ZXN0JHJlZixcbn07XG4qL1xuXG5cbmNvbnN0IG5vZGUvKjogUmVhZGVyRnJhZ21lbnQqLyA9IHtcbiAgXCJraW5kXCI6IFwiRnJhZ21lbnRcIixcbiAgXCJuYW1lXCI6IFwicmV2aWV3c0NvbnRyb2xsZXJfcHVsbFJlcXVlc3RcIixcbiAgXCJ0eXBlXCI6IFwiUHVsbFJlcXVlc3RcIixcbiAgXCJtZXRhZGF0YVwiOiBudWxsLFxuICBcImFyZ3VtZW50RGVmaW5pdGlvbnNcIjogW10sXG4gIFwic2VsZWN0aW9uc1wiOiBbXG4gICAge1xuICAgICAgXCJraW5kXCI6IFwiU2NhbGFyRmllbGRcIixcbiAgICAgIFwiYWxpYXNcIjogbnVsbCxcbiAgICAgIFwibmFtZVwiOiBcImlkXCIsXG4gICAgICBcImFyZ3NcIjogbnVsbCxcbiAgICAgIFwic3RvcmFnZUtleVwiOiBudWxsXG4gICAgfSxcbiAgICB7XG4gICAgICBcImtpbmRcIjogXCJGcmFnbWVudFNwcmVhZFwiLFxuICAgICAgXCJuYW1lXCI6IFwicHJDaGVja291dENvbnRyb2xsZXJfcHVsbFJlcXVlc3RcIixcbiAgICAgIFwiYXJnc1wiOiBudWxsXG4gICAgfVxuICBdXG59O1xuLy8gcHJldHRpZXItaWdub3JlXG4obm9kZS8qOiBhbnkqLykuaGFzaCA9ICc5ZDY3Zjk5MDhhYjRlZDc3NmFmNWYxZWUxNGY2MWNjYic7XG5tb2R1bGUuZXhwb3J0cyA9IG5vZGU7XG4iXX0=
