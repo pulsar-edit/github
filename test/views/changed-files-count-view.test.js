@@ -2,7 +2,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import ChangedFilesCountView from '../../lib/views/changed-files-count-view';
-import * as reporterProxy from '../../lib/reporter-proxy';
 
 describe('ChangedFilesCountView', function() {
   let wrapper;
@@ -25,12 +24,5 @@ describe('ChangedFilesCountView', function() {
   it('renders multiple count if more than one file', function() {
     wrapper = shallow(<ChangedFilesCountView changedFilesCount={2} />);
     assert.isTrue(wrapper.text().includes('Git (2)'));
-  });
-
-  it('records an event on click', function() {
-    sinon.stub(reporterProxy, 'addEvent');
-    wrapper = shallow(<ChangedFilesCountView />);
-    wrapper.simulate('click');
-    assert.isTrue(reporterProxy.addEvent.calledWith('click', {package: 'github', component: 'ChangedFileCountView'}));
   });
 });

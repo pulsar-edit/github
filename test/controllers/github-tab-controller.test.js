@@ -12,7 +12,6 @@ import {InMemoryStrategy, UNAUTHENTICATED} from '../../lib/shared/keytar-strateg
 import GithubLoginModel from '../../lib/models/github-login-model';
 import RefHolder from '../../lib/models/ref-holder';
 import Refresher from '../../lib/models/refresher';
-import * as reporterProxy from '../../lib/reporter-proxy';
 
 import {buildRepository, cloneRepository} from '../helpers';
 
@@ -116,24 +115,19 @@ describe('GitHubTabController', function() {
     });
 
     it('handles and instruments a login', async function() {
-      sinon.stub(reporterProxy, 'incrementCounter');
       const loginModel = new GithubLoginModel(InMemoryStrategy);
 
-      const wrapper = shallow(buildApp({loginModel}));
       await wrapper.find('GitHubTabView').prop('handleLogin')('good-token');
       assert.strictEqual(await loginModel.getToken(DOTCOM.getLoginAccount()), 'good-token');
-      assert.isTrue(reporterProxy.incrementCounter.calledWith('github-login'));
     });
 
     it('handles and instruments a logout', async function() {
-      sinon.stub(reporterProxy, 'incrementCounter');
       const loginModel = new GithubLoginModel(InMemoryStrategy);
       await loginModel.setToken(DOTCOM.getLoginAccount(), 'good-token');
 
       const wrapper = shallow(buildApp({loginModel}));
       await wrapper.find('GitHubTabView').prop('handleLogout')();
       assert.strictEqual(await loginModel.getToken(DOTCOM.getLoginAccount()), UNAUTHENTICATED);
-      assert.isTrue(reporterProxy.incrementCounter.calledWith('github-logout'));
     });
   });
 });

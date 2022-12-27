@@ -26,7 +26,6 @@ import CommitDetailItem from '../../lib/items/commit-detail-item';
 import RelayNetworkLayerManager, {expectRelayQuery} from '../../lib/relay-network-layer-manager';
 import createRepositoryQuery from '../../lib/mutations/__generated__/createRepositoryMutation.graphql';
 import {relayResponseBuilder} from '../builder/graphql/query';
-import * as reporterProxy from '../../lib/reporter-proxy';
 
 import RootController from '../../lib/controllers/root-controller';
 
@@ -150,14 +149,6 @@ describe('RootController', function() {
             {searchAllPanes: true, activateItem: true, activatePane: true},
           ]);
         });
-        it('increments counter with correct name', function() {
-          sinon.stub(workspace, 'open');
-          const incrementCounterStub = sinon.stub(reporterProxy, 'incrementCounter');
-
-          tabTracker.reveal();
-          assert.equal(incrementCounterStub.callCount, 1);
-          assert.deepEqual(incrementCounterStub.lastCall.args, [`${tabName}-tab-open`]);
-        });
       });
 
       describe('hide', function() {
@@ -169,14 +160,6 @@ describe('RootController', function() {
           assert.deepEqual(workspace.hide.args[0], [
             `atom-github://dock-item/${tabName}`,
           ]);
-        });
-        it('increments counter with correct name', function() {
-          sinon.stub(workspace, 'hide');
-          const incrementCounterStub = sinon.stub(reporterProxy, 'incrementCounter');
-
-          tabTracker.hide();
-          assert.equal(incrementCounterStub.callCount, 1);
-          assert.deepEqual(incrementCounterStub.lastCall.args, [`${tabName}-tab-close`]);
         });
       });
 
@@ -421,8 +404,7 @@ describe('RootController', function() {
       assert.strictEqual(wrapper.find('DialogsController').prop('request').identifier, 'issueish');
     });
 
-    it('triggers the open callback on accept and fires `open-commit-in-pane` event', async function() {
-      sinon.stub(reporterProxy, 'addEvent');
+    it('triggers the open callback on accept', async function() {
       sinon.stub(workspace, 'open').resolves();
 
       const wrapper = shallow(React.cloneElement(app, {repository}));
@@ -441,9 +423,6 @@ describe('RootController', function() {
         }),
         {searchAllPanes: true},
       ));
-      assert.isTrue(reporterProxy.addEvent.calledWith(
-        'open-issueish-in-pane', {package: 'github', from: 'dialog'}),
-      );
 
       const req1 = wrapper.find('DialogsController').prop('request');
       assert.strictEqual(req1, dialogRequests.null);
@@ -467,7 +446,6 @@ describe('RootController', function() {
     let workdirPath, repository;
 
     beforeEach(async function() {
-      sinon.stub(reporterProxy, 'addEvent');
       sinon.stub(atomEnv.workspace, 'open').resolves('item');
 
       workdirPath = await cloneRepository('multiple-commits');
@@ -497,7 +475,6 @@ describe('RootController', function() {
         CommitDetailItem.buildURI(repository.getWorkingDirectoryPath(), 'abcd1234'),
         {searchAllPanes: true},
       ));
-      assert.isTrue(reporterProxy.addEvent.called);
 
       const req1 = wrapper.find('DialogsController').prop('request');
       assert.strictEqual(req1, dialogRequests.null);
@@ -1404,51 +1381,6 @@ describe('RootController', function() {
       atomEnv.commands.dispatch(workspace.getElement(), 'github:toggle-commit-preview');
 
       assert.lengthOf(wrapper.update().find('CommitPreviewItem'), 1);
-    });
-  });
-
-  describe('context commands trigger event reporting', function() {
-    let wrapper;
-
-    beforeEach(async function() {
-      const repository = await buildRepository(await cloneRepository('multiple-commits'));
-      app = React.cloneElement(app, {
-        repository,
-        startOpen: true,
-        startRevealed: true,
-      });
-      wrapper = mount(app);
-      sinon.stub(reporterProxy, 'addEvent');
-    });
-
-    it('sends an event when a command is triggered via a context menu', function() {
-      commands.dispatch(
-        wrapper.find('CommitView').getDOMNode(),
-        'github:toggle-expanded-commit-message-editor',
-        [{contextCommand: true}],
-      );
-      assert.isTrue(reporterProxy.addEvent.calledWith(
-        'context-menu-action', {
-          package: 'github',
-          command: 'github:toggle-expanded-commit-message-editor',
-        }));
-    });
-
-    it('does not send an event when a command is triggered in other ways', function() {
-      commands.dispatch(
-        wrapper.find('CommitView').getDOMNode(),
-        'github:toggle-expanded-commit-message-editor',
-      );
-      assert.isFalse(reporterProxy.addEvent.called);
-    });
-
-    it('does not send an event when a command not starting with github: is triggered via a context menu', function() {
-      commands.dispatch(
-        wrapper.find('CommitView').getDOMNode(),
-        'core:copy',
-        [{contextCommand: true}],
-      );
-      assert.isFalse(reporterProxy.addEvent.called);
     });
   });
 

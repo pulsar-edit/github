@@ -12,7 +12,6 @@ import IssueishDetailItem from '../../lib/items/issueish-detail-item';
 import EnableableOperation from '../../lib/models/enableable-operation';
 import RefHolder from '../../lib/models/ref-holder';
 import {getEndpoint} from '../../lib/models/endpoint';
-import * as reporterProxy from '../../lib/reporter-proxy';
 import {repositoryBuilder} from '../builder/graphql/repository';
 import {pullRequestBuilder} from '../builder/graphql/pr';
 import {cloneRepository, buildRepository} from '../helpers';
@@ -342,83 +341,5 @@ describe('PullRequestDetailView', function() {
     wrapper.unmount();
 
     assert.isTrue(refresher.destroy.called);
-  });
-
-  describe('metrics', function() {
-    beforeEach(function() {
-      sinon.stub(reporterProxy, 'addEvent');
-    });
-
-    it('records clicking the link to view an issueish', function() {
-      const repository = repositoryBuilder(repositoryQuery)
-        .name('repo')
-        .owner(o => o.login('user0'))
-        .build();
-
-      const pullRequest = pullRequestBuilder(pullRequestQuery)
-        .number(100)
-        .url('https://github.com/user0/repo/pull/100')
-        .build();
-
-      const wrapper = shallow(buildApp({repository, pullRequest}));
-
-      const link = wrapper.find('a.github-IssueishDetailView-headerLink');
-      assert.strictEqual(link.text(), 'user0/repo#100');
-      assert.strictEqual(link.prop('href'), 'https://github.com/user0/repo/pull/100');
-      link.simulate('click');
-
-      assert.isTrue(reporterProxy.addEvent.calledWith(
-        'open-pull-request-in-browser',
-        {package: 'github', component: 'BarePullRequestDetailView'},
-      ));
-    });
-
-    it('records opening the Overview tab', function() {
-      const wrapper = shallow(buildApp());
-      const index = findTabIndex(wrapper, 'Overview');
-
-      wrapper.find('Tabs').prop('onSelect')(index);
-
-      assert.isTrue(reporterProxy.addEvent.calledWith(
-        'open-pr-tab-overview',
-        {package: 'github', component: 'BarePullRequestDetailView'},
-      ));
-    });
-
-    it('records opening the Build Status tab', function() {
-      const wrapper = shallow(buildApp());
-      const index = findTabIndex(wrapper, 'Build Status');
-
-      wrapper.find('Tabs').prop('onSelect')(index);
-
-      assert.isTrue(reporterProxy.addEvent.calledWith(
-        'open-pr-tab-build-status',
-        {package: 'github', component: 'BarePullRequestDetailView'},
-      ));
-    });
-
-    it('records opening the Commits tab', function() {
-      const wrapper = shallow(buildApp());
-      const index = findTabIndex(wrapper, 'Commits');
-
-      wrapper.find('Tabs').prop('onSelect')(index);
-
-      assert.isTrue(reporterProxy.addEvent.calledWith(
-        'open-pr-tab-commits',
-        {package: 'github', component: 'BarePullRequestDetailView'},
-      ));
-    });
-
-    it('records opening the "Files Changed" tab', function() {
-      const wrapper = shallow(buildApp());
-      const index = findTabIndex(wrapper, 'Files');
-
-      wrapper.find('Tabs').prop('onSelect')(index);
-
-      assert.isTrue(reporterProxy.addEvent.calledWith(
-        'open-pr-tab-files-changed',
-        {package: 'github', component: 'BarePullRequestDetailView'},
-      ));
-    });
   });
 });
