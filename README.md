@@ -1,12 +1,8 @@
-# Atom GitHub Package
+# Pulsar GitHub Package
 
-| Build | Code Coverage |
-|-------|---------------|
-| [![Build Status](https://github.com/atom/github/workflows/ci/badge.svg)](https://github.com/atom/github/actions?query=workflow%3Aci+branch%3Amaster) | [![codecov](https://codecov.io/gh/atom/github/branch/master/graph/badge.svg)](https://codecov.io/gh/atom/github) |
+The Pulsar GitHub package provides Git and GitHub integration for Pulsar.
 
-The Atom GitHub package provides Git and GitHub integration for Atom. Check out [github.atom.io](https://github.atom.io) for more information.
-
-<img width="880" alt="GitHub for Atom" src="https://user-images.githubusercontent.com/378023/49062969-2e717a00-f259-11e8-8207-2ecbc6981cd6.png">
+<img width="880" alt="GitHub for Pulsar" src="https://user-images.githubusercontent.com/378023/49062969-2e717a00-f259-11e8-8207-2ecbc6981cd6.png">
 
 <img width="880" alt="git-integration" src="https://user-images.githubusercontent.com/378023/49062970-2f0a1080-f259-11e8-91e9-9402ec76cd66.png">
 
@@ -16,7 +12,7 @@ The Atom GitHub package provides Git and GitHub integration for Atom. Check out 
 
 ## Installation
 
-This package is bundled with Atom starting in version 1.18, and does not need to be installed separately.
+This package is bundled with Pulsar starting in version 1.18, and does not need to be installed separately.
 
 ## License
 
