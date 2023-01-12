@@ -1,6 +1,6 @@
 {
   "name": "github",
-  "main": "./dist/index",
+  "main": "./lib/index",
   "version": "0.36.13",
   "description": "GitHub integration",
   "repository": "https://github.com/pulsar-edit/github",
