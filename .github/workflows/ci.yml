@@ -7,8 +7,11 @@ on:
       - master
 
 env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   # See https://github.com/pulsar-edit/pulsar/pull/46 for why we set this env variable.
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+  MOCHA_TIMEOUT: 60000
+  UNTIL_TIMEOUT: 30000
 
 jobs:
   test:
@@ -34,6 +37,12 @@ jobs:
       - name: Install dependencies (*nix)
         if: ${{ runner.os != 'Windows' }}
         run: pulsar --package install --verbose
+        
+        # See https://github.com/atom/github/pull/2459#issuecomment-769487284
+      - name: Configure git
+        run: |
+          git config --global user.name Username
+          git config --global user.email username@github.com
       
       - name: Run the headless Pulsar Tests
         uses: coactions/setup-xvfb@v1.0.1
