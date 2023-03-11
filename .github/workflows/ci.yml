@@ -1,8 +1,8 @@
 name: CI
 
 on:
-  - push
-  - pull_request
+  pull_request:
+  push:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -19,12 +19,13 @@ jobs:
     steps:
       - name: Checkout the Latest Package Code
         uses: actions/checkout@v3
+      
       - name: Setup Pulsar Editor
-        uses: pulsar-edit/action-pulsar-dependency@v2.1
-        with:
-          package-to-test: "github"
+        uses: pulsar-edit/action-pulsar-dependency@v3.2
+      
       - name: Run the headless Pulsar Tests
-        uses: GabrielBB/xvfb-action@v1
+        uses: coactions/setup-xvfb@v1.0.1
         with:
-          run: yarn start --test spec
-          working-directory: ./pulsar
+          run: pulsar --test spec
+
+
