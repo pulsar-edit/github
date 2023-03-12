@@ -1,30 +1,65 @@
 name: CI
 
 on:
-  - push
-  - pull_request
+  pull_request:
+  push:
+    branches:
+      - master
 
 env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   # See https://github.com/pulsar-edit/pulsar/pull/46 for why we set this env variable.
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+  MOCHA_TIMEOUT: 60000
+  UNTIL_TIMEOUT: 30000
 
 jobs:
   test:
     name: Test
     strategy:
       matrix:
-        os: [ubuntu-20.04, macos-latest, windows-2019]
+        os: [ubuntu-20.04, ubuntu-latest, macos-latest, windows-2019]
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout the Latest Package Code
         uses: actions/checkout@v3
+      
       - name: Setup Pulsar Editor
-        uses: pulsar-edit/action-pulsar-dependency@v2.1
-        with:
-          package-to-test: "github"
+        uses: pulsar-edit/action-pulsar-dependency@v3.2
+        
+      - name: Install dependencies (Windows)
+        if: ${{ runner.os == 'Windows' }}
+        # Currently the Pulsar process starts, but unlike *nix doesn't wait for ppm to finish, probably because pulsar.cmd needs updated
+        # So we'll fallback to ppm (still named apm) instead
+        run: apm install --verbose
+        
+      - name: Install dependencies (*nix)
+        if: ${{ runner.os != 'Windows' }}
+        run: pulsar --package install --verbose
+        
+        # See https://github.com/atom/github/pull/2459#issuecomment-769487284
+      - name: Configure git
+        run: |
+          git config --global user.name Username
+          git config --global user.email username@github.com
+      
       - name: Run the headless Pulsar Tests
-        uses: GabrielBB/xvfb-action@v1
+        uses: coactions/setup-xvfb@v1.0.1
         with:
-          run: yarn start --test spec
-          working-directory: ./pulsar
+          #Ideally, the test folder should be renamed to spec to fall in-line with other conventions
+          run: pulsar --test test
+  
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+      - name: NPM install
+        run: npm install
+      - name: Lint ✨
+        run: npm run lint
+
