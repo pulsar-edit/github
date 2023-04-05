@@ -1,9 +1,9 @@
 {
   "name": "github",
-  "main": "./dist/index",
-  "version": "0.36.13",
+  "main": "./lib/index",
+  "version": "0.36.15",
   "description": "GitHub integration",
-  "repository": "https://github.com/atom/github",
+  "repository": "https://github.com/pulsar-edit/github",
   "license": "MIT",
   "scripts": {
     "test": "node script/test",
