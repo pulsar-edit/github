@@ -34,6 +34,10 @@
             'label': 'Open Reviews Tab'
             'command': 'github:open-reviews-tab'
           }
+          {
+            'label': 'Log Out'
+            'command': 'github:logout'
+          } 
         ]
       }
     ]
