@@ -22,7 +22,7 @@
   &-header {
     display: flex;
     align-items: center;
-    padding: @component-padding*1.5 @component-padding*2;
+    padding: (@component-padding*1.5) (@component-padding*2);
     border-bottom: 1px solid @base-border-color;
   }
 
@@ -149,18 +149,18 @@
     margin: 0 auto;
 
     & > .github-DotComMarkdownHtml {
-      padding: @component-padding*2;
+      padding: (@component-padding*2);
     }
   }
 
 
   .github-EmojiReactions {
-    padding: 0 @component-padding*2 @component-padding @component-padding*2;
+    padding: 0 (@component-padding*2) @component-padding (@component-padding*2);
   }
 
   // Build Status
   &-buildStatus {
-    padding: @component-padding*2;
+    padding: (@component-padding*2);
     &:empty {
       display: none;
     }
@@ -168,7 +168,7 @@
 
   // Commits
   .github-PrCommitsView-commitWrapper {
-    padding: @component-padding*2;
+    padding: (@component-padding*2);
   }
 
 
@@ -179,7 +179,7 @@
     overflow: auto;
 
     & > .github-DotComMarkdownHtml {
-      padding: @component-padding*2;
+      padding: (@component-padding*2);
     }
   }
 
