@@ -2,7 +2,7 @@
 
 @avatar-size: 16px;
 @font-size-default: @font-size;
-@font-size-body: @font-size - 1px;
+@font-size-body: (@font-size - 1px);
 @nav-size: 2.5em;
 @background-color: mix(@base-background-color, @tool-panel-background-color, 66%);
 
@@ -16,7 +16,7 @@
   height: 100%;
 
   atom-text-editor {
-    padding: @component-padding/2;
+    padding: (@component-padding/2);
     border-top: 1px solid @base-border-color;
     border-bottom: 1px solid @base-border-color;
     border-radius: @component-border-radius;
@@ -34,7 +34,7 @@
     color: @text-color-subtle;
 
     .icon:before {
-      margin-right: @component-padding / 1.2;
+      margin-right: (@component-padding / 1.2);
     }
 
     .icon.refreshing::before {
@@ -91,7 +91,7 @@
         }
         &-header {
           color: @text-color-subtle;
-          padding-top: @component-padding * 0.5;
+          padding-top: (@component-padding * 0.5);
         }
       }
     }
@@ -209,7 +209,7 @@
 
   &-comment {
     position: relative;
-    margin-top: @component-padding/2;
+    margin-top: (@component-padding/2);
     margin-left: 7px;
     padding-left: 12px;
     font-size: @font-size-body;
@@ -247,7 +247,7 @@
     cursor: default;
 
     &::-webkit-details-marker {
-      margin-right: @component-padding/1.5;
+      margin-right: (@component-padding/1.5);
     }
 
     .resolved & {
@@ -265,7 +265,7 @@
 
   &-file {
     color: @text-color;
-    margin-right: @component-padding/2;
+    margin-right: (@component-padding/2);
     font-weight: 500;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -275,12 +275,12 @@
 
   &-lineNr {
     color: @text-color-subtle;
-    margin-right: @component-padding/2;
+    margin-right: (@component-padding/2);
   }
 
   &-referenceAvatar {
     margin-left: auto;
-    margin-right: @component-padding/2;
+    margin-right: (@component-padding/2);
     width: @avatar-size;
     height: @avatar-size;
     border-radius: @component-border-radius;
@@ -293,7 +293,7 @@
 
   &-referenceTimeAgo {
     color: @text-color-subtle;
-    margin-right: @component-padding/2;
+    margin-right: (@component-padding/2);
     .github-Review[open] & {
       display: none;
     }
@@ -341,7 +341,7 @@
   // Diff ------------------
 
   &-diffLine {
-    padding: 0 @component-padding/2;
+    padding: 0 (@component-padding/2);
     line-height: 1.75;
 
     &:last-child {
@@ -378,11 +378,11 @@
 
   &-comments {
     padding: @component-padding;
-    padding-left: @component-padding + @avatar-size + 5px; // space for avatar
+    padding-left: (@component-padding + @avatar-size + 5px); // space for avatar
   }
 
   &-comment {
-    margin-bottom: @component-padding*1.5;
+    margin-bottom: (@component-padding*1.5);
 
     &--hidden {
       color: @text-color-subtle;
@@ -395,7 +395,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: @component-padding/4;
+    margin-bottom: (@component-padding/4);
   }
 
   &-avatar {
@@ -419,7 +419,7 @@
 
   &-actionsMenu::before {
     margin-right: 0;
-    margin-left: @component-padding/2;
+    margin-left: (@component-padding/2);
   }
 
   &-pendingBadge {
@@ -455,7 +455,7 @@
   }
 
   &-replyButton {
-    margin-left: @avatar-size + 5px; // match left position of the comment editor
+    margin-left: (@avatar-size + 5px); // match left position of the comment editor
   }
 
   &-resolvedText {
@@ -465,12 +465,12 @@
   }
 
   &-editable-footer {
-    margin: @component-padding/2 0 @component-padding 0;
+    margin: (@component-padding/2) 0 @component-padding 0;
     display: flex;
     justify-content: flex-end;
 
     .btn {
-      margin-left: @component-padding/2;
+      margin-left: (@component-padding/2);
     }
   }
 
