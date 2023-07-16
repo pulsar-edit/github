@@ -8,8 +8,8 @@
 
   // all items
   .timeline-item {
-    padding: @component-padding*1.5 @component-padding*2;
-    padding-left:@component-padding * 4.5;
+    padding: (@component-padding*1.5) (@component-padding*2);
+    padding-left: (@component-padding * 4.5);
     border-top: 1px solid mix(@text-color, @base-background-color, 15%);
   }
 
@@ -41,7 +41,7 @@
 
   .pre-timeline-item-icon {
     position: absolute;
-    margin-left: -@component-padding * 2.5;
+    margin-left: (-@component-padding * 2.5);
     text-align: center;
     margin-top: 2px;
     color: mix(@text-color, @base-background-color, 33%);
@@ -57,7 +57,7 @@
   .commit {
     display: table-row;
     align-items: center;
-    margin-left: @component-padding * 2;
+    margin-left: (@component-padding * 2);
 
     &:first-child {
       padding-top: @component-padding;
@@ -70,7 +70,7 @@
     }
 
     & + .issue {
-      margin-top: @component-padding/2;
+      margin-top: (@component-padding/2);
     }
 
     .commit-author {
@@ -81,7 +81,7 @@
     .author-avatar {
       @size: 20px;
       position: relative;
-      margin-right: -@size + 4px;
+      margin-right: (-@size + 4px);
       width: @size;
       height: @size;
       border-radius: @component-border-radius;
@@ -109,9 +109,9 @@
 
     .commit-message-headline {
       display: table-cell;
-      line-height: @avatar-size + 4px;
-      padding: 0 @component-padding/3;
-      padding-left: @avatar-size + @component-padding;
+      line-height: (@avatar-size + 4px);
+      padding: 0 (@component-padding/3);
+      padding-left: (@avatar-size + @component-padding);
       max-height: @avatar-size;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -138,7 +138,7 @@
 
   .cross-referenced-events {
     // provides spacing between cross-referenced-event rows
-    border-spacing: 0 @component-padding / 2;
+    border-spacing: 0 (@component-padding / 2);
 
     .info-row {
       margin-bottom: @component-padding;
@@ -221,7 +221,7 @@
   .issue {
 
     .info-row {
-      margin-bottom: @component-padding/1.5;
+      margin-bottom: (@component-padding/1.5);
     }
 
     .github-DotComMarkdownHtml {

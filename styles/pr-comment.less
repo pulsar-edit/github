@@ -47,7 +47,7 @@
   }
 
   &-body {
-    margin-left: @avatar-size + @avatar-spacing; // avatar + margin
+    margin-left: (@avatar-size + @avatar-spacing); // avatar + margin
   }
 
   &-hidden {
@@ -68,8 +68,8 @@
     .d-flex { display: flex; }
     .d-inline-block { display: inline-block; }
     .flex-auto { flex: 1 1 auto; }
-    .p-1 { padding: @component-padding/2; }
-    .px-1 { padding-left: @component-padding/2; padding-right: @component-padding/2; }
+    .p-1 { padding: (@component-padding/2); }
+    .px-1 { padding-left: (@component-padding/2); padding-right: (@component-padding/2); }
     .p-2 { padding: @component-padding; }
     .text-gray { color: @text-color-subtle; }
     .lh-condensed { line-height: 1.25; }

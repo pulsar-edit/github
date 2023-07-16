@@ -8,19 +8,19 @@
 
 .github-RecentCommits {
   // Fit @show-max + 1px for the top border
-  max-height: @show-max * @size + @component-padding * @show-max + @component-padding + 1px;
+  max-height: (@show-max * @size + @component-padding * @show-max + @component-padding + 1px);
   overflow-x: hidden;
   overflow-y: auto;
   border-top: 1px solid @base-border-color;
 
   &-list {
     margin: 0;
-    padding: @component-padding/2 0;
+    padding: (@component-padding/2) 0;
     list-style: none;
   }
 
   &-message {
-    padding: @component-padding/2 @component-padding;
+    padding: (@component-padding/2) @component-padding;
     text-align: center;
     color: @text-color-subtle;
   }
@@ -31,7 +31,7 @@
   display: flex;
   align-items: center;
   padding: 0 @component-padding;
-  line-height: @size + @component-padding;
+  line-height: (@size + @component-padding);
 
   &-authors {
     position: absolute;
@@ -40,7 +40,7 @@
 
   &-avatar {
     position: relative;
-    margin-right: -@size + 3px;
+    margin-right: (-@size + 3px);
     width: @size;
     height: @size;
     border-radius: @component-border-radius;
@@ -71,16 +71,16 @@
   &-message {
     flex: 1;
     margin: 0 .5em;
-    margin-left: @size + @component-padding;
+    margin-left: (@size + @component-padding);
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
   }
 
   &-undoButton.btn {
-    padding: 0 @component-padding/1.5;
-    margin-right: @component-padding/2;
-    height: @size * 1.25;
+    padding: 0 (@component-padding/1.5);
+    margin-right: (@component-padding/2);
+    height: (@size * 1.25);
     line-height: 1;
     font-size: .9em;
   }
@@ -115,13 +115,13 @@
 @media (min-height: 900px) {
   .github-RecentCommits {
     @show-max: 5;
-    max-height: @show-max * @size + @component-padding * @show-max + @component-padding + 1px;
+    max-height: (@show-max * @size + @component-padding * @show-max + @component-padding + 1px);
   }
 }
 
 @media (min-height: 1200px) {
   .github-RecentCommits {
     @show-max: 10;
-    max-height: @show-max * @size + @component-padding * @show-max + @component-padding + 1px;
+    max-height: (@show-max * @size + @component-padding * @show-max + @component-padding + 1px);
   }
 }

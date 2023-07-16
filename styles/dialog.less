@@ -1,6 +1,6 @@
 @import "variables";
 
-@github-dialog-spacing: @component-padding / 2;
+@github-dialog-spacing: (@component-padding / 2);
 
 .github-Dialog {
   &Prompt {
@@ -186,7 +186,7 @@
 
     &Avatar {
       flex: 0;
-      border-radius: @component-padding/4;
+      border-radius: (@component-padding/4);
       margin: 0 @component-padding 0 0;
     }
 
@@ -238,7 +238,7 @@
     &Option {
       display: inline-flex;
       align-items: center;
-      padding: @component-padding/4;
+      padding: (@component-padding/4);
       margin-right: @component-padding;
 
       &:focus-within {
@@ -271,13 +271,13 @@
 
     &Heading {
       display: inline-block;
-      margin-right: @component-padding*2;
+      margin-right: (@component-padding*2);
     }
 
     &Option {
       display: inline-flex;
       align-items: center;
-      padding: @component-padding/4;
+      padding: (@component-padding/4);
       margin-right: @component-padding;
 
       &:focus-within {
@@ -286,8 +286,8 @@
       }
 
       span::before {
-        margin-left: @component-padding/2;
-        margin-right: @component-padding/2;
+        margin-left: (@component-padding/2);
+        margin-right: (@component-padding/2);
       }
     }
   }

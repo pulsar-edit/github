@@ -9,7 +9,7 @@
     position: relative;
     border: 1px solid @input-border-color;
     border-radius: @component-border-radius;
-    padding: @component-padding / 2;
+    padding: (@component-padding / 2);
     font-size: @font-size;
     background-color: @syntax-background-color;
 
@@ -47,7 +47,7 @@
     position: absolute;
     left: 0;
     bottom: 0;
-    padding: @component-padding / 2;
+    padding: (@component-padding / 2);
     line-height: 1;
     border: none;
     background-color: @syntax-background-color;
@@ -89,7 +89,7 @@
 
   &-coAuthorEditor {
     position: relative;
-    margin-top: @component-padding / 2;
+    margin-top: (@component-padding / 2);
     padding: (@component-padding / 4) (@component-padding / 2);
     border: 1px solid @base-border-color;
     color: @syntax-text-color;
@@ -164,7 +164,7 @@
       background-color: transparent;
       width: 100%;
 
-      padding: @component-padding / 2;
+      padding: (@component-padding / 2);
       padding-right: 10px; // space for scrollbar
       border-top: 1px solid @overlay-border-color;
       white-space: nowrap;
@@ -210,7 +210,7 @@
     position: absolute;
     right: 0;
     bottom: 0;
-    padding: @component-padding / 2;
+    padding: (@component-padding / 2);
     line-height: 1;
     border: none;
     background-color: @syntax-background-color;
@@ -273,7 +273,7 @@
       background-color: transparent;
       opacity: .5;
       &::before {
-        margin-right: @component-padding / 2;
+        margin-right: (@component-padding / 2);
       }
       &::after {
         content: "Toggle expanded commit message";
