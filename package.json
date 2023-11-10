@@ -75,7 +75,7 @@
     "underscore-plus": "1.7.0",
     "what-the-diff": "0.6.0",
     "what-the-status": "1.0.3",
-    "whats-my-line": "https://github.com/pulsar-edit/whats-my-line#72c73c4b688f7ef8641bb8560554e686c1939953",
+    "whats-my-line": "https://github.com/pulsar-edit/whats-my-line/archive/b4c56fd94be91c11c717d486b0ad229e7422e882.tar.gz",
     "yubikiri": "2.0.0"
   },
   "devDependencies": {
