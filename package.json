@@ -21,23 +21,6 @@
   "engines": {
     "atom": ">=1.37.0"
   },
-  "atomTestRunner": "./test/runner",
-  "atomTranspilers": [
-    {
-      "glob": "{lib,test}/**/*.js",
-      "transpiler": "@atom/babel7-transpiler",
-      "options": {
-        "cacheKeyFiles": [
-          "package.json",
-          ".babelrc.js",
-          "assert-messages-plugin.js",
-          "graphql/schema.graphql",
-          ".nycrc.json"
-        ],
-        "setBabelEnv": "ATOM_GITHUB_BABEL_ENV"
-      }
-    }
-  ],
   "dependencies": {
     "@atom/babel-plugin-chai-assert-async": "1.0.0",
     "@atom/babel7-transpiler": "1.0.0-1",
