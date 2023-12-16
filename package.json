@@ -1,7 +1,7 @@
 {
   "name": "github",
   "main": "./lib/index",
-  "version": "0.36.18",
+  "version": "0.36.19",
   "description": "GitHub integration",
   "repository": "https://github.com/pulsar-edit/github",
   "license": "MIT",
