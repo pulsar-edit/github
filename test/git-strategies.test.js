@@ -15,7 +15,6 @@ import Author from '../lib/models/author';
 
 import {cloneRepository, initRepository, assertDeepPropertyVals, setUpLocalAndRemoteRepositories} from './helpers';
 import {normalizeGitHelperPath, getTempDir} from '../lib/helpers';
-import * as reporterProxy from '../lib/reporter-proxy';
 
 /**
  * KU Thoughts: The GitShellOutStrategy methods are tested in Repository tests for the most part
@@ -32,12 +31,11 @@ import * as reporterProxy from '../lib/reporter-proxy';
 
   describe(`Git commands for CompositeGitStrategy made of [${strategies.map(s => s.name).join(', ')}]`, function() {
     describe('exec', function() {
-      let git, incrementCounterStub;
+      let git;
 
       beforeEach(async function() {
         const workingDir = await cloneRepository();
         git = createTestStrategy(workingDir);
-        incrementCounterStub = sinon.stub(reporterProxy, 'incrementCounter');
       });
 
       describe('when the WorkerManager is not ready or disabled', function() {
@@ -64,18 +62,6 @@ import * as reporterProxy from '../lib/reporter-proxy';
       it('rejects if the process fails to spawn for an unexpected reason', async function() {
         sinon.stub(git, 'executeGitCommand').returns({promise: Promise.reject(new Error('wat'))});
         await assert.isRejected(git.exec(['version']), /wat/);
-      });
-
-      it('does not call incrementCounter when git command is on the ignore list', async function() {
-        await git.exec(['status']);
-        assert.equal(incrementCounterStub.callCount, 0);
-      });
-
-      it('does call incrementCounter when git command is NOT on the ignore list', async function() {
-        await git.exec(['commit', '--allow-empty', '-m', 'make an empty commit']);
-
-        assert.equal(incrementCounterStub.callCount, 1);
-        assert.deepEqual(incrementCounterStub.lastCall.args, ['commit']);
       });
     });
 

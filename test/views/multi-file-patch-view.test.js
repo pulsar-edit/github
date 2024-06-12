@@ -1,8 +1,6 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 
-import * as reporterProxy from '../../lib/reporter-proxy';
-
 import {cloneRepository, buildRepository} from '../helpers';
 import {EXPANDED, COLLAPSED, DEFERRED, REMOVED} from '../../lib/models/patch/patch';
 import MultiFilePatchView from '../../lib/views/multi-file-patch-view';
@@ -210,7 +208,7 @@ describe('MultiFilePatchView', function() {
 
     assert.lengthOf(filePatches.getFilePatches(), 1);
     const [filePatch] = filePatches.getFilePatches();
-    assert.isTrue(undoLastDiscard.calledWith(filePatch, {eventSource: 'button'}));
+    assert.isTrue(undoLastDiscard.calledWith(filePatch));
   });
 
   it('dives into the mirror patch from the file header button', function() {
@@ -1527,7 +1525,7 @@ describe('MultiFilePatchView', function() {
       atomEnv.commands.dispatch(wrapper.getDOMNode(), 'core:undo');
 
       const [filePatch] = filePatches.getFilePatches();
-      assert.isTrue(undoLastDiscard.calledWith(filePatch, {eventSource: {command: 'core:undo'}}));
+      assert.isTrue(undoLastDiscard.calledWith(filePatch));
     });
 
     it('does nothing when there is no last discard to undo', function() {
@@ -1548,7 +1546,7 @@ describe('MultiFilePatchView', function() {
       assert.isTrue(discardRows.called);
       assert.sameMembers(Array.from(discardRows.lastCall.args[0]), [1, 2]);
       assert.strictEqual(discardRows.lastCall.args[1], 'line');
-      assert.deepEqual(discardRows.lastCall.args[2], {eventSource: {command: 'github:discard-selected-lines'}});
+      assert.deepEqual(discardRows.lastCall.args[2]);
     });
 
     it('toggles the patch selection mode from line to hunk', function() {
@@ -1891,19 +1889,6 @@ describe('MultiFilePatchView', function() {
       );
       assert.isTrue(wrapper.find('.github-FilePatchView-showDiffButton').exists());
       assert.isFalse(wrapper.find('.github-HunkHeaderView').exists());
-    });
-
-    it('loads large diff and sends event when show diff button is clicked', function() {
-      const addEventStub = sinon.stub(reporterProxy, 'addEvent');
-      const expandFilePatch = sinon.spy(mfp, 'expandFilePatch');
-
-      assert.isFalse(addEventStub.called);
-      wrapper.find('.github-FilePatchView-showDiffButton').first().simulate('click');
-      wrapper.update();
-
-      assert.isTrue(addEventStub.calledOnce);
-      assert.deepEqual(addEventStub.lastCall.args, ['expand-file-patch', {component: 'MultiFilePatchView', package: 'github'}]);
-      assert.isTrue(expandFilePatch.calledOnce);
     });
 
     it('does not display diff gate if diff size is below large diff threshold', function() {

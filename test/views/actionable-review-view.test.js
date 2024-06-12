@@ -3,7 +3,6 @@ import {shallow} from 'enzyme';
 import {shell} from 'electron';
 
 import ActionableReviewView from '../../lib/views/actionable-review-view';
-import * as reporterProxy from '../../lib/reporter-proxy';
 
 describe('ActionableReviewView', function() {
   let atomEnv, mockEvent, mockMenu;
@@ -19,8 +18,6 @@ describe('ActionableReviewView', function() {
       append: sinon.spy(),
       popup: sinon.spy(),
     };
-
-    sinon.stub(reporterProxy, 'addEvent');
   });
 
   afterEach(function() {
@@ -75,7 +72,6 @@ describe('ActionableReviewView', function() {
         await item.click();
 
         assert.isTrue(shell.openExternal.calledWith('https://github.com'));
-        assert.isTrue(reporterProxy.addEvent.calledWith('open-comment-in-browser'));
       });
 
       it("rejects the promise when 'Open on GitHub' fails", async function() {
@@ -83,7 +79,6 @@ describe('ActionableReviewView', function() {
 
         const item = triggerMenu({url: 'https://github.com'}, {}).items.find(i => i.label === 'Open on GitHub');
         await assert.isRejected(item.click());
-        assert.isFalse(reporterProxy.addEvent.called);
       });
 
       it('opens a prepopulated abuse-reporting link with "Report abuse"', async function() {
@@ -96,7 +91,6 @@ describe('ActionableReviewView', function() {
         assert.isTrue(shell.openExternal.calledWith(
           'https://github.com/contact/report-content?report=tyrion&content_url=https%3A%2F%2Fgithub.com%2Fa%2Fb',
         ));
-        assert.isTrue(reporterProxy.addEvent.calledWith('report-abuse'));
       });
 
       it("rejects the promise when 'Report abuse' fails", async function() {
@@ -105,7 +99,6 @@ describe('ActionableReviewView', function() {
         const item = triggerMenu({url: 'https://github.com/a/b'}, {login: 'tyrion'})
           .items.find(i => i.label === 'Report abuse');
         await assert.isRejected(item.click());
-        assert.isFalse(reporterProxy.addEvent.called);
       });
 
       it('includes an "edit" item only if the content is editable', function() {

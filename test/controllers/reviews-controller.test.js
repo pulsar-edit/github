@@ -10,7 +10,6 @@ import BranchSet from '../../lib/models/branch-set';
 import RemoteSet from '../../lib/models/remote-set';
 import EnableableOperation from '../../lib/models/enableable-operation';
 import WorkdirContextPool from '../../lib/models/workdir-context-pool';
-import * as reporterProxy from '../../lib/reporter-proxy';
 import {getEndpoint} from '../../lib/models/endpoint';
 import {cloneRepository, buildRepository, registerGitHubOpener} from '../helpers';
 import {multiFilePatchBuilder} from '../builder/patch';
@@ -652,9 +651,8 @@ describe('ReviewsController', function() {
   });
 
   describe('editing review comments', function() {
-    it('calls the review comment update mutation and increments a metric', async function() {
+    it('calls the review comment update mutation', async function() {
       const reportRelayError = sinon.spy();
-      sinon.stub(reporterProxy, 'addEvent');
 
       expectRelayQuery({
         name: updateReviewCommentMutation.operation.name,
@@ -670,12 +668,10 @@ describe('ReviewsController', function() {
       await wrapper.find(ReviewsView).prop('updateComment')('comment-0', 'new text');
 
       assert.isFalse(reportRelayError.called);
-      assert.isTrue(reporterProxy.addEvent.calledWith('update-review-comment', {package: 'github'}));
     });
 
     it('creates a notification and and re-throws the error if the comment cannot be updated', async function() {
       const reportRelayError = sinon.spy();
-      sinon.stub(reporterProxy, 'addEvent');
 
       expectRelayQuery({
         name: updateReviewCommentMutation.operation.name,
@@ -693,14 +689,12 @@ describe('ReviewsController', function() {
       );
 
       assert.isTrue(reportRelayError.calledWith('Unable to update comment'));
-      assert.isFalse(reporterProxy.addEvent.called);
     });
   });
 
   describe('editing review summaries', function() {
-    it('calls the review summary update mutation and increments a metric', async function() {
+    it('calls the review summary update mutation', async function() {
       const reportRelayError = sinon.spy();
-      sinon.stub(reporterProxy, 'addEvent');
 
       expectRelayQuery({
         name: updatePrReviewMutation.operation.name,
@@ -716,12 +710,10 @@ describe('ReviewsController', function() {
       await wrapper.find(ReviewsView).prop('updateSummary')('review-0', 'stuff');
 
       assert.isFalse(reportRelayError.called);
-      assert.isTrue(reporterProxy.addEvent.calledWith('update-review-summary', {package: 'github'}));
     });
 
     it('creates a notification and and re-throws the error if the summary cannot be updated', async function() {
       const reportRelayError = sinon.spy();
-      sinon.stub(reporterProxy, 'addEvent');
 
       expectRelayQuery({
         name: updatePrReviewMutation.operation.name,
@@ -739,7 +731,6 @@ describe('ReviewsController', function() {
       );
 
       assert.isTrue(reportRelayError.calledWith('Unable to update review summary'));
-      assert.isFalse(reporterProxy.addEvent.called);
     });
   });
 
@@ -750,7 +741,6 @@ describe('ReviewsController', function() {
       openFilesTab = sinon.spy();
       onTabSelected = sinon.spy();
       sinon.stub(atomEnv.workspace, 'open').resolves({openFilesTab, onTabSelected});
-      sinon.stub(reporterProxy, 'addEvent');
       wrapper = shallow(buildApp())
         .find(PullRequestCheckoutController)
         .renderProp('children')(noop);
@@ -765,7 +755,6 @@ describe('ReviewsController', function() {
           pending: true,
         },
       ));
-      assert.isTrue(reporterProxy.addEvent.calledWith('reviews-dock-open-file', {package: 'github'}));
     });
 
     it('opens diff in PR detail item', async function() {
@@ -783,9 +772,6 @@ describe('ReviewsController', function() {
         },
       ));
       assert.isTrue(openFilesTab.calledWith({changedFilePath: 'filepath', changedFilePosition: 420}));
-      assert.isTrue(reporterProxy.addEvent.calledWith('reviews-dock-open-diff', {
-        package: 'github', component: 'BareReviewsController',
-      }));
     });
 
     it('opens overview of a PR detail item', async function() {
@@ -802,9 +788,6 @@ describe('ReviewsController', function() {
           searchAllPanes: true,
         },
       ));
-      assert.isTrue(reporterProxy.addEvent.calledWith('reviews-dock-open-pr', {
-        package: 'github', component: 'BareReviewsController',
-      }));
     });
 
     it('manages the open/close state of the summary section', async function() {

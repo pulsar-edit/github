@@ -1,7 +1,6 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import * as reporterProxy from '../../lib/reporter-proxy';
 import CommitDetailItem from '../../lib/items/commit-detail-item';
 import {BareIssueishDetailController} from '../../lib/controllers/issueish-detail-controller';
 import PullRequestCheckoutController from '../../lib/controllers/pr-checkout-controller';
@@ -155,8 +154,6 @@ describe('IssueishDetailController', function() {
 
   describe('openCommit', function() {
     beforeEach(async function() {
-      sinon.stub(reporterProxy, 'addEvent');
-
       const checkoutOp = new EnableableOperation(() => {}).disable("I don't feel like it");
 
       const wrapper = shallow(buildApp({workdirPath: __dirname}));
@@ -168,14 +165,6 @@ describe('IssueishDetailController', function() {
       assert.include(
         atomEnv.workspace.getPaneItems().map(item => item.getURI()),
         CommitDetailItem.buildURI(__dirname, '1234'),
-      );
-    });
-
-    it('reports an event', function() {
-      assert.isTrue(
-        reporterProxy.addEvent.calledWith(
-          'open-commit-in-pane', {package: 'github', from: 'BareIssueishDetailController'},
-        ),
       );
     });
   });

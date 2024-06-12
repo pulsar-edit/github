@@ -8,7 +8,6 @@ import Remote from '../../lib/models/remote';
 import RemoteSet from '../../lib/models/remote-set';
 import {getEndpoint} from '../../lib/models/endpoint';
 import RemoteController from '../../lib/controllers/remote-controller';
-import * as reporterProxy from '../../lib/reporter-proxy';
 
 describe('RemoteController', function() {
   let atomEnv, remote, remoteSet, currentBranch, branchSet;
@@ -50,27 +49,15 @@ describe('RemoteController', function() {
     );
   }
 
-  it('increments a counter when onCreatePr is called', async function() {
-    const wrapper = shallow(createApp());
-    sinon.stub(shell, 'openExternal').callsFake(() => {});
-    sinon.stub(reporterProxy, 'incrementCounter');
-
-    await wrapper.instance().onCreatePr();
-    assert.equal(reporterProxy.incrementCounter.callCount, 1);
-    assert.deepEqual(reporterProxy.incrementCounter.lastCall.args, ['create-pull-request']);
-  });
-
   it('handles error when onCreatePr fails', async function() {
     const wrapper = shallow(createApp());
     sinon.stub(shell, 'openExternal').throws(new Error('oh noes'));
-    sinon.stub(reporterProxy, 'incrementCounter');
 
     try {
       await wrapper.instance().onCreatePr();
     } catch (err) {
       assert.equal(err.message, 'oh noes');
     }
-    assert.equal(reporterProxy.incrementCounter.callCount, 0);
   });
 
   it('renders issueish searches', function() {

@@ -9,7 +9,6 @@ import Branch from '../../lib/models/branch';
 import BranchSet from '../../lib/models/branch-set';
 import Issueish from '../../lib/models/issueish';
 import {getEndpoint} from '../../lib/models/endpoint';
-import * as reporterProxy from '../../lib/reporter-proxy';
 
 import remoteContainerQuery from '../../lib/containers/__generated__/remoteContainerQuery.graphql';
 
@@ -103,7 +102,6 @@ describe('IssueishSearchesController', function() {
       commits: {nodes: []},
     });
 
-    sinon.stub(reporterProxy, 'addEvent');
     await container.prop('onOpenIssueish')(issueish);
     assert.isTrue(
       atomEnv.workspace.open.calledWith(
@@ -111,7 +109,6 @@ describe('IssueishSearchesController', function() {
         {pending: true, searchAllPanes: true},
       ),
     );
-    assert.isTrue(reporterProxy.addEvent.calledWith('open-issueish-in-pane', {package: 'github', from: 'issueish-list'}));
   });
 
   it('passes a handler to open reviews and reports an event', async function() {
@@ -129,13 +126,11 @@ describe('IssueishSearchesController', function() {
       commits: {nodes: []},
     });
 
-    sinon.stub(reporterProxy, 'addEvent');
     await container.prop('onOpenReviews')(issueish);
     assert.isTrue(
       atomEnv.workspace.open.calledWith(
         `atom-github://reviews/github.com/atom/github/2084?workdir=${encodeURIComponent(__dirname)}`,
       ),
     );
-    assert.isTrue(reporterProxy.addEvent.calledWith('open-reviews-tab', {package: 'github', from: 'IssueishSearchesController'}));
   });
 });

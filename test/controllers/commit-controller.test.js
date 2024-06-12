@@ -10,7 +10,6 @@ import UserStore from '../../lib/models/user-store';
 import CommitController, {COMMIT_GRAMMAR_SCOPE} from '../../lib/controllers/commit-controller';
 import CommitPreviewItem from '../../lib/items/commit-preview-item';
 import {cloneRepository, buildRepository, buildRepositoryWithPipeline, registerGitHubOpener} from '../helpers';
-import * as reporterProxy from '../../lib/reporter-proxy';
 
 describe('CommitController', function() {
   let atomEnvironment, workspace, commands, notificationManager, lastCommit, config, confirm, tooltips;
@@ -316,24 +315,6 @@ describe('CommitController', function() {
         assert.isTrue(atomEnvironment.applicationDelegate.confirm.called);
         await assert.async.strictEqual(wrapper.update().find('CommitView').prop('messageBuffer').getText(), 'make some new changes');
       });
-
-      describe('openCommitMessageEditor', function() {
-        it('records an event', async function() {
-          const wrapper = shallow(app, {disableLifecycleMethods: true});
-
-          sinon.stub(reporterProxy, 'addEvent');
-          // open expanded commit message editor
-          await wrapper.find('CommitView').prop('toggleExpandedCommitMessageEditor')('message in box');
-          assert.isTrue(reporterProxy.addEvent.calledWith('open-commit-message-editor', {package: 'github'}));
-          // close expanded commit message editor
-          reporterProxy.addEvent.reset();
-          await wrapper.find('CommitView').prop('toggleExpandedCommitMessageEditor')('message in box');
-          assert.isFalse(reporterProxy.addEvent.called);
-          // open expanded commit message editor again
-          await wrapper.find('CommitView').prop('toggleExpandedCommitMessageEditor')('message in box');
-          assert.isTrue(reporterProxy.addEvent.calledWith('open-commit-message-editor', {package: 'github'}));
-        });
-      });
     });
 
     describe('committing from commit editor', function() {
@@ -463,20 +444,6 @@ describe('CommitController', function() {
       // Commit preview closed
       assert.notInclude(workspace.getPaneItems().map(i => i.getURI()), previewURI);
       assert.isFalse(wrapper.find('CommitView').prop('commitPreviewActive'));
-    });
-
-    it('records a metrics event when pane is toggled', async function() {
-      sinon.stub(reporterProxy, 'addEvent');
-      const workdir = await cloneRepository('three-files');
-      const repository = await buildRepository(workdir);
-
-      const wrapper = shallow(React.cloneElement(app, {repository}));
-
-      assert.isFalse(reporterProxy.addEvent.called);
-
-      await wrapper.instance().toggleCommitPreview();
-
-      assert.isTrue(reporterProxy.addEvent.calledOnceWithExactly('toggle-commit-preview', {package: 'github'}));
     });
 
     it('toggles the commit preview pane for the active repository', async function() {
