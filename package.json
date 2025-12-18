@@ -47,6 +47,7 @@
     "@babel/plugin-proposal-object-rest-spread": "7.8.0",
     "@babel/preset-env": "7.12.1",
     "@babel/preset-react": "7.8.0",
+    "@pulsar-edit/whats-my-line": "0.3.0",
     "babel-plugin-relay": "5.0.0",
     "bintrees": "1.0.2",
     "bytes": "3.1.0",
@@ -75,7 +76,6 @@
     "underscore-plus": "1.7.0",
     "what-the-diff": "0.6.0",
     "what-the-status": "1.0.3",
-    "whats-my-line": "https://github.com/pulsar-edit/whats-my-line/archive/4029ca9567a0bf0f12843890461fb13e758cfcbf.tar.gz",
     "yubikiri": "2.0.0"
   },
   "devDependencies": {
@@ -91,7 +91,6 @@
     "enzyme": "3.10.0",
     "enzyme-adapter-react-16": "1.7.1",
     "eslint": "6.8.0",
-    "eslint-config-fbjs-opensource": "1.0.0",
     "eslint-plugin-jsx-a11y": "6.2.3",
     "globby": "10.0.1",
     "hock": "1.4.1",
