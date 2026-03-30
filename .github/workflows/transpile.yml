@@ -1,0 +1,53 @@
+name: Auto-Transpile
+
+on:
+  release:
+    types: [created]
+  workflow_dispatch:
+
+jobs:
+  transpile:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v5
+      - name: Setup NodeJS
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ vars.NODE_VERSION }} # Use org defined NODE_VERSION
+      - name: Install Dependencies
+        run: npm install --legacy-peer-deps
+        # The legacy-peer-deps flag matches how `pulsar -p install` behaves
+      - name: Install NPM Tooling
+        run: npm install -g @babel/cli @babel/core
+      - name: Log Globally installed NPM tooling
+        run: npm ls -g
+      - name: Log babel version
+        run: npx babel --version
+      - name: Setup Git User
+        run: |
+          git --version
+          git config --global user.name "Pulsar-Edit Bot"
+          git config --global user.email "<no-reply@users-github.com>"
+      - name: Find Current Version
+        run: |
+          NODE_PKG_VERSION=$(node -p "require('./package.json').version")
+          echo "NODE_PKG_VERSION=$NODE_PKG_VERSION" >> $GITHUB_ENV
+      - name: Create new pretranspiled branch
+        run: git switch -c v${{ env.NODE_PKG_VERSION }}-pretranspiled
+      - name: Transpile Source
+        run: ELECTRON_VERSION=30.5.1 babel lib -d lib --compact auto --source-type module
+      - name: Strip `atomTranspilers` from `package.json`
+        run: node ./.github/stripAtomTranspilers.js
+      - name: Commit changes
+        run: |
+          git add
+          git commit -m "Pretranspile package"
+      - name: Tag changes
+        run: git tag v${{ env.NODE_PKG_VERSION }}-pretranspiled
+      - name: Push branch to remote
+        run: git push -u origin v${{ env.NODE_PKG_VERSION }}-pretranspiled
+      - name: Push tag to remote
+        run: git push origin v${{ env.NODE_PKG_VERSION }}-pretranspiled
