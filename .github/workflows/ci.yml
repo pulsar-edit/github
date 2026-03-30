@@ -27,7 +27,7 @@ jobs:
 
       - name: Install library dependencies (Linux)
         if: ${{ runner.os == 'Linux' }}
-        run: sudo apt-get update && apt-get install -y git python3 python3-pip make gcc g++ libsecret-1-0
+        run: sudo apt-get update && sudo apt-get install -y git python3 python3-pip make gcc g++ libsecret-1-0
 
       - name: Setup Pulsar Editor
         uses: pulsar-edit/action-pulsar-dependency@v3.2
