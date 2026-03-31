@@ -50,14 +50,14 @@ jobs:
         run: npm config set git-tag-version false
       - name: Bump Version
         run: npm version ${{ inputs.releaseType }}
-      - name: Commit changes
-        run: |
-          git add
-          git commit -m "Bump Version"
       - name: Find Current Version
         run: |
           NODE_PKG_VERSION=$(node -p "require('./package.json').version")
           echo "NODE_PKG_VERSION=$NODE_PKG_VERSION" >> $GITHUB_ENV
+      - name: Commit changes
+        run: |
+          git add
+          git commit -m "Bump Version to v${{ env.NODE_PKG_VERSION }}"
       - name: Tag changes as base tag
         run: git tag v${{ env.NODE_PKG_VERSION }}
       - name: Push updated default branch to remote
