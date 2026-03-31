@@ -1,0 +1,80 @@
+name: Auto-Transpile
+
+on:
+  workflow_dispatch:
+    inputs:
+      releaseType:
+        description: "The semver bump type for this release."
+        required: true
+        default: "patch"
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+          - premajor
+          - preminor
+          - prepatch
+          - prerelease
+
+env:
+  ELECTRON_VERSION: 30.5.1
+
+jobs:
+  transpile:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v5
+      - name: Setup NodeJS
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ vars.NODE_VERSION }} # Use org defined NODE_VERSION
+      - name: Install Dependencies
+        run: npm install --legacy-peer-deps
+        # The legacy-peer-deps flag matches how `pulsar -p install` behaves
+      - name: Install NPM Tooling
+        run: npm install -g @babel/cli @babel/core
+      - name: Log Globally installed NPM tooling
+        run: npm ls -g
+      - name: Log babel version
+        run: npx babel --version
+      - name: Setup Git User
+        run: |
+          git --version
+          git config --global user.name "Pulsar-Edit Bot"
+          git config --global user.email "<no-reply@users-github.com>"
+      - name: Disable NPM Git tag creation on version bump
+        run: npm config set git-tag-version false
+      - name: Bump Version
+        run: npm version ${{ inputs.releaseType }}
+      - name: Find Current Version
+        run: |
+          NODE_PKG_VERSION=$(node -p "require('./package.json').version")
+          echo "NODE_PKG_VERSION=$NODE_PKG_VERSION" >> $GITHUB_ENV
+      - name: Commit changes
+        run: |
+          git add
+          git commit -m "Bump Version to v${{ env.NODE_PKG_VERSION }}"
+      - name: Tag changes as base tag
+        run: git tag v${{ env.NODE_PKG_VERSION }}
+      - name: Push updated default branch to remote
+        run: git push
+      - name: Push base tag to remote
+        run: git push origin v${{ env.NODE_PKG_VERSION }}
+      - name: Create new pretranspiled branch
+        run: git switch -c v${{ env.NODE_PKG_VERSION }}-pretranspiled-working-branch
+      - name: Transpile Source
+        run: ELECTRON_VERSION=${{ env.ELECTRON_VERSION }} babel lib -d lib --compact auto --source-type module
+      - name: Strip `atomTranspilers` from `package.json`
+        run: node ./.github/stripAtomTranspilers.js
+      - name: Commit changes
+        run: |
+          git add
+          git commit -m "Pretranspile package"
+      - name: Tag changes
+        run: git tag v${{ env.NODE_PKG_VERSION }}-pretranspiled
+      - name: Push tag to remote
+        run: git push origin v${{ env.NODE_PKG_VERSION }}-pretranspiled
