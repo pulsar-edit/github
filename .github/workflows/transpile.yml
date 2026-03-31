@@ -39,7 +39,7 @@ jobs:
           NODE_PKG_VERSION=$(node -p "require('./package.json').version")
           echo "NODE_PKG_VERSION=$NODE_PKG_VERSION" >> $GITHUB_ENV
       - name: Create new pretranspiled branch
-        run: git switch -c v${{ env.NODE_PKG_VERSION }}-pretranspiled
+        run: git switch -c v${{ env.NODE_PKG_VERSION }}-pretranspiled-working-branch
       - name: Transpile Source
         run: ELECTRON_VERSION=${{ env.ELECTRON_VERSION }} babel lib -d lib --compact auto --source-type module
       - name: Strip `atomTranspilers` from `package.json`
@@ -50,7 +50,5 @@ jobs:
           git commit -m "Pretranspile package"
       - name: Tag changes
         run: git tag v${{ env.NODE_PKG_VERSION }}-pretranspiled
-      - name: Push branch to remote
-        run: git push -u origin v${{ env.NODE_PKG_VERSION }}-pretranspiled
       - name: Push tag to remote
         run: git push origin v${{ env.NODE_PKG_VERSION }}-pretranspiled
