@@ -60,8 +60,10 @@ jobs:
           echo "NODE_PKG_VERSION=$NODE_PKG_VERSION" >> $GITHUB_ENV
       - name: Tag changes as base tag
         run: git tag v${{ env.NODE_PKG_VERSION }}
+      - name: Push updated default branch to remote
+        run: git push
       - name: Push base tag to remote
-        run: git push oriign v${{ env.NODE_PKG_VERSION }}
+        run: git push origin v${{ env.NODE_PKG_VERSION }}
       - name: Create new pretranspiled branch
         run: git switch -c v${{ env.NODE_PKG_VERSION }}-pretranspiled-working-branch
       - name: Transpile Source
