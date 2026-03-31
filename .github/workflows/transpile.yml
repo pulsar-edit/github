@@ -1,9 +1,21 @@
 name: Auto-Transpile
 
 on:
-  release:
-    types: [created]
   workflow_dispatch:
+    inputs:
+      releaseType:
+        description: "The semver bump type for this release."
+        required: true
+        default: "patch"
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+          - premajor
+          - preminor
+          - prepatch
+          - prerelease
 
 env:
   ELECTRON_VERSION: 30.5.1
@@ -34,10 +46,22 @@ jobs:
           git --version
           git config --global user.name "Pulsar-Edit Bot"
           git config --global user.email "<no-reply@users-github.com>"
+      - name: Disable NPM Git tag creation on version bump
+        run: npm config set git-tag-version false
+      - name: Bump Version
+        run: npm version ${{ inputs.releaseType }}
+      - name: Commit changes
+        run: |
+          git add
+          git commit -m "Bump Version"
       - name: Find Current Version
         run: |
           NODE_PKG_VERSION=$(node -p "require('./package.json').version")
           echo "NODE_PKG_VERSION=$NODE_PKG_VERSION" >> $GITHUB_ENV
+      - name: Tag changes as base tag
+        run: git tag v${{ env.NODE_PKG_VERSION }}
+      - name: Push base tag to remote
+        run: git push oriign v${{ env.NODE_PKG_VERSION }}
       - name: Create new pretranspiled branch
         run: git switch -c v${{ env.NODE_PKG_VERSION }}-pretranspiled-working-branch
       - name: Transpile Source
