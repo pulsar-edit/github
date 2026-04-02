@@ -5,7 +5,6 @@ import RecentCommitsController from '../../lib/controllers/recent-commits-contro
 import CommitDetailItem from '../../lib/items/commit-detail-item';
 import {commitBuilder} from '../builder/commit';
 import {cloneRepository, buildRepository, registerGitHubOpener} from '../helpers';
-import * as reporterProxy from '../../lib/reporter-proxy';
 
 describe('RecentCommitsController', function() {
   let atomEnv, workdirPath, app;
@@ -82,22 +81,6 @@ describe('RecentCommitsController', function() {
       await wrapper.find('RecentCommitsView').prop('openCommit')({sha: 'asdf1234', preserveFocus: true});
       assert.isTrue(focusSpy.called);
       assert.isTrue(preventFocus.called);
-    });
-
-    it('records an event', async function() {
-      sinon.stub(atomEnv.workspace, 'open').resolves({preventFocus() {}});
-      sinon.stub(reporterProxy, 'addEvent');
-
-      const sha = 'asdf1234';
-      const commits = [commitBuilder().sha(sha).build()];
-      app = React.cloneElement(app, {commits});
-      const wrapper = shallow(app);
-
-      await wrapper.instance().openCommit({sha: 'asdf1234', preserveFocus: true});
-      assert.isTrue(reporterProxy.addEvent.calledWith('open-commit-in-pane', {
-        package: 'github',
-        from: RecentCommitsController.name,
-      }));
     });
   });
 

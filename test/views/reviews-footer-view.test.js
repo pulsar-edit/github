@@ -1,7 +1,6 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import * as reporterProxy from '../../lib/reporter-proxy';
 import ReviewsFooterView from '../../lib/views/reviews-footer-view';
 
 describe('ReviewsFooterView', function() {
@@ -42,14 +41,5 @@ describe('ReviewsFooterView', function() {
     wrapper.find('.github-ReviewsFooterView-openReviewsButton').simulate('click');
 
     assert.isTrue(openReviews.called);
-  });
-
-  it('records an event when review is started from footer', function() {
-    sinon.stub(reporterProxy, 'addEvent');
-    const wrapper = shallow(buildApp());
-
-    wrapper.find('.github-ReviewsFooterView-reviewChangesButton').simulate('click');
-
-    assert.isTrue(reporterProxy.addEvent.calledWith('start-pr-review', {package: 'github', component: 'ReviewsFooterView'}));
   });
 });

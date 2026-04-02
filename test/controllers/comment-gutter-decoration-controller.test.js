@@ -3,7 +3,6 @@ import {shallow} from 'enzyme';
 import CommentGutterDecorationController from '../../lib/controllers/comment-gutter-decoration-controller';
 import {getEndpoint} from '../../lib/models/endpoint';
 import {Range} from 'atom';
-import * as reporterProxy from '../../lib/reporter-proxy';
 import ReviewsItem from '../../lib/items/reviews-item';
 
 describe('CommentGutterDecorationController', function() {
@@ -53,7 +52,6 @@ describe('CommentGutterDecorationController', function() {
   });
 
   it('opens review dock and jumps to thread when clicked', async function() {
-    sinon.stub(reporterProxy, 'addEvent');
     const jumpToThread = sinon.spy();
     sinon.stub(atomEnv.workspace, 'open').resolves({jumpToThread});
     const wrapper = shallow(buildApp());
@@ -64,9 +62,5 @@ describe('CommentGutterDecorationController', function() {
       {searchAllPanes: true},
     ));
     await assert.async.isTrue(jumpToThread.calledWith('my-thread-will-go-on'));
-    assert.isTrue(reporterProxy.addEvent.calledWith('open-review-thread', {
-      package: 'github',
-      from: 'TheThingThatMadeChildren',
-    }));
   });
 });

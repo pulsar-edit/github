@@ -5,7 +5,6 @@ import {BareIssueDetailView} from '../../lib/views/issue-detail-view';
 import EmojiReactionsController from '../../lib/controllers/emoji-reactions-controller';
 import IssueTimelineController from '../../lib/controllers/issue-timeline-controller';
 import {issueDetailViewProps} from '../fixtures/props/issueish-pane-props';
-import * as reporterProxy from '../../lib/reporter-proxy';
 import {GHOST_USER} from '../../lib/helpers';
 
 describe('IssueDetailView', function() {
@@ -137,24 +136,5 @@ describe('IssueDetailView', function() {
     wrapper.unmount();
 
     assert.isTrue(refresher.destroy.called);
-  });
-
-  describe('clicking link to view issueish link', function() {
-    it('records an event', function() {
-      const wrapper = shallow(buildApp({
-        repositoryName: 'repo',
-        ownerLogin: 'user0',
-        issueishNumber: 100,
-      }));
-
-      sinon.stub(reporterProxy, 'addEvent');
-
-      const link = wrapper.find('a.github-IssueishDetailView-headerLink');
-      assert.strictEqual(link.text(), 'user0/repo#100');
-      assert.strictEqual(link.prop('href'), 'https://github.com/user0/repo/issues/100');
-      link.simulate('click');
-
-      assert.isTrue(reporterProxy.addEvent.calledWith('open-issue-in-browser', {package: 'github', component: 'BareIssueDetailView'}));
-    });
   });
 });

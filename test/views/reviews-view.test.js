@@ -8,7 +8,6 @@ import EnableableOperation from '../../lib/models/enableable-operation';
 import {aggregatedReviewsBuilder} from '../builder/graphql/aggregated-reviews-builder';
 import {multiFilePatchBuilder} from '../builder/patch';
 import {checkoutStates} from '../../lib/controllers/pr-checkout-controller';
-import * as reporterProxy from '../../lib/reporter-proxy';
 import {GHOST_USER} from '../../lib/helpers';
 
 describe('ReviewsView', function() {
@@ -87,17 +86,12 @@ describe('ReviewsView', function() {
   });
 
   it('renders empty state if there is no review', function() {
-    sinon.stub(reporterProxy, 'addEvent');
     const wrapper = shallow(buildApp());
     assert.lengthOf(wrapper.find('.github-Reviews-section.summaries'), 0);
     assert.lengthOf(wrapper.find('.github-Reviews-section.comments'), 0);
     assert.lengthOf(wrapper.find('.github-Reviews-emptyState'), 1);
 
     wrapper.find('.github-Reviews-emptyCallToActionButton a').simulate('click');
-    assert.isTrue(reporterProxy.addEvent.calledWith(
-      'start-pr-review',
-      {package: 'github', component: 'ReviewsView'},
-    ));
   });
 
   it('renders summary and comment sections', function() {

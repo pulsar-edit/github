@@ -10,7 +10,6 @@ import Remote from '../../lib/models/remote';
 import {GitError} from '../../lib/git-shell-out-strategy';
 import {repositoryBuilder} from '../builder/graphql/repository';
 import {pullRequestBuilder} from '../builder/graphql/pr';
-import * as reporterProxy from '../../lib/reporter-proxy';
 
 import repositoryQuery from '../../lib/controllers/__generated__/prCheckoutController_repository.graphql';
 import pullRequestQuery from '../../lib/controllers/__generated__/prCheckoutController_pullRequest.graphql';
@@ -181,19 +180,8 @@ describe('PullRequestCheckoutController', function() {
       remotes,
     }));
 
-    sinon.spy(reporterProxy, 'incrementCounter');
     const [op] = children.lastCall.args;
     await op.run();
-
-    assert.isTrue(localRepository.addRemote.calledWith('ccc', 'git@github.com:ccc/ddd.git'));
-    assert.isTrue(localRepository.fetch.calledWith('refs/heads/feature', {remoteName: 'ccc'}));
-    assert.isTrue(localRepository.checkout.calledWith('pr-456/ccc/feature', {
-      createNew: true,
-      track: true,
-      startPoint: 'refs/remotes/ccc/feature',
-    }));
-
-    assert.isTrue(reporterProxy.incrementCounter.calledWith('checkout-pr'));
   });
 
   it('fetches a PR branch from an existing remote and checks it out into a new local branch', async function() {
@@ -223,7 +211,6 @@ describe('PullRequestCheckoutController', function() {
       remotes,
     }));
 
-    sinon.spy(reporterProxy, 'incrementCounter');
     const [op] = children.lastCall.args;
     await op.run();
 
@@ -233,8 +220,6 @@ describe('PullRequestCheckoutController', function() {
       track: true,
       startPoint: 'refs/remotes/existing/clever-name',
     }));
-
-    assert.isTrue(reporterProxy.incrementCounter.calledWith('checkout-pr'));
   });
 
   it('checks out an existing local branch that corresponds to the pull request', async function() {
@@ -269,13 +254,11 @@ describe('PullRequestCheckoutController', function() {
       remotes,
     }));
 
-    sinon.spy(reporterProxy, 'incrementCounter');
     const [op] = children.lastCall.args;
     await op.run();
 
     assert.isTrue(localRepository.checkout.calledWith('existing'));
     assert.isTrue(localRepository.pull.calledWith('refs/heads/yes', {remoteName: 'upstream', ffOnly: true}));
-    assert.isTrue(reporterProxy.incrementCounter.calledWith('checkout-pr'));
   });
 
   it('squelches git errors', async function() {

@@ -6,7 +6,6 @@ import {dialogRequests} from '../../lib/controllers/dialogs-controller';
 import CommitDetailItem from '../../lib/items/commit-detail-item';
 import {GitError} from '../../lib/git-shell-out-strategy';
 import {TabbableTextEditor} from '../../lib/views/tabbable';
-import * as reporterProxy from '../../lib/reporter-proxy';
 
 describe('OpenCommitDialog', function() {
   let atomEnv;
@@ -96,7 +95,6 @@ describe('OpenCommitDialog', function() {
 
     beforeEach(function() {
       sinon.stub(atomEnv.workspace, 'open').resolves('item');
-      sinon.stub(reporterProxy, 'addEvent');
 
       repository = {
         getWorkingDirectoryPath() {
@@ -118,15 +116,11 @@ describe('OpenCommitDialog', function() {
       };
     });
 
-    it('opens a CommitDetailItem with the chosen valid ref and records an event', async function() {
+    it('opens a CommitDetailItem with the chosen valid ref', async function() {
       assert.strictEqual(await openCommitDetailItem('abcd1234', {workspace: atomEnv.workspace, repository}), 'item');
       assert.isTrue(atomEnv.workspace.open.calledWith(
         CommitDetailItem.buildURI(__dirname, 'abcd1234'),
         {searchAllPanes: true},
-      ));
-      assert.isTrue(reporterProxy.addEvent.calledWith(
-        'open-commit-in-pane',
-        {package: 'github', from: OpenCommitDialog.name},
       ));
     });
 

@@ -5,7 +5,6 @@ import {shallow} from 'enzyme';
 
 import MultiFilePatchController from '../../lib/controllers/multi-file-patch-controller';
 import MultiFilePatch from '../../lib/models/patch/multi-file-patch';
-import * as reporterProxy from '../../lib/reporter-proxy';
 import {multiFilePatchBuilder} from '../builder/patch';
 import {cloneRepository, buildRepository} from '../helpers';
 import CommitPreviewItem from '../../lib/items/commit-preview-item';
@@ -226,18 +225,6 @@ describe('MultiFilePatchController', function() {
     });
 
     describe('discardRows()', function() {
-      it('records an event', async function() {
-        const wrapper = shallow(buildApp());
-        sinon.stub(reporterProxy, 'addEvent');
-        await wrapper.find('MultiFilePatchView').prop('discardRows')(new Set([1, 2]), 'hunk');
-        assert.isTrue(reporterProxy.addEvent.calledWith('discard-unstaged-changes', {
-          package: 'github',
-          component: 'MultiFilePatchController',
-          lineCount: 2,
-          eventSource: undefined,
-        }));
-      });
-
       it('is a no-op when multiple patches are present', async function() {
         const {multiFilePatch: mfp} = multiFilePatchBuilder()
           .addFilePatch()
@@ -245,23 +232,8 @@ describe('MultiFilePatchController', function() {
           .build();
         const discardLines = sinon.spy();
         const wrapper = shallow(buildApp({discardLines, multiFilePatch: mfp}));
-        sinon.stub(reporterProxy, 'addEvent');
         await wrapper.find('MultiFilePatchView').prop('discardRows')(new Set([1, 2]));
-        assert.isFalse(reporterProxy.addEvent.called);
         assert.isFalse(discardLines.called);
-      });
-    });
-
-    describe('undoLastDiscard()', function() {
-      it('records an event', function() {
-        const wrapper = shallow(buildApp());
-        sinon.stub(reporterProxy, 'addEvent');
-        wrapper.find('MultiFilePatchView').prop('undoLastDiscard')(filePatch);
-        assert.isTrue(reporterProxy.addEvent.calledWith('undo-last-discard', {
-          package: 'github',
-          component: 'MultiFilePatchController',
-          eventSource: undefined,
-        }));
       });
     });
   });

@@ -4,14 +4,12 @@ import {shallow} from 'enzyme';
 import OpenIssueishDialog, {openIssueishItem} from '../../lib/views/open-issueish-dialog';
 import IssueishDetailItem from '../../lib/items/issueish-detail-item';
 import {dialogRequests} from '../../lib/controllers/dialogs-controller';
-import * as reporterProxy from '../../lib/reporter-proxy';
 
 describe('OpenIssueishDialog', function() {
   let atomEnv;
 
   beforeEach(function() {
     atomEnv = global.buildAtomEnvironment();
-    sinon.stub(reporterProxy, 'addEvent').returns();
   });
 
   afterEach(function() {
